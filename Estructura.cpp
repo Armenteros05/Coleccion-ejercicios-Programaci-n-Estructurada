@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <limits>  // Necesario para limpiar el buffer de entrada
 using namespace std;
 
 struct Estudiante {
@@ -8,6 +9,11 @@ struct Estudiante {
     int edad;
     float promedio;
 };
+
+void limpiarBuffer() {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
 
 int main() {
     const int MAX_ESTUDIANTES = 5;
@@ -19,20 +25,36 @@ int main() {
         cout << "\nSeleccione una opcion:\n1. Agregar estudiante\n2. Mostrar estudiantes\n3. Buscar estudiante\n4. Salir\n";
         cin >> respuesta;
 
+        if (cin.fail()) {
+            cout << "Error: Opcion no valida. Por favor, ingrese un numero." << endl;
+            limpiarBuffer();
+            continue;
+        }
+
         switch (respuesta) {
             case 1:
                 if (cantidadEstudiantes < MAX_ESTUDIANTES) {
                     listaEstudiantes[cantidadEstudiantes] = new Estudiante;
                     cout << "Ingrese el nombre del estudiante: ";
-                    cin.ignore();
+                    limpiarBuffer();
                     cin.getline(listaEstudiantes[cantidadEstudiantes]->nombre, 50, '\n');
                     cout << "Ingrese la edad del estudiante: ";
                     cin >> listaEstudiantes[cantidadEstudiantes]->edad;
+                    if (cin.fail()) {
+                        cout << "Error: Ingrese una edad valida." << endl;
+                        limpiarBuffer();
+                        continue;
+                    }
                     cout << "Ingrese el promedio de notas del estudiante: ";
                     cin >> listaEstudiantes[cantidadEstudiantes]->promedio;
+                    if (cin.fail()) {
+                        cout << "Error: Ingrese un promedio valido." << endl;
+                        limpiarBuffer();
+                        continue;
+                    }
                     cantidadEstudiantes++;
                 } else {
-                    cout << "La lista de estudiantes está llena." << endl;
+                    cout << "La lista de estudiantes esta llena." << endl;
                 }
                 break;
             case 2:
@@ -47,7 +69,7 @@ int main() {
             {
                 string nombreBuscar;
                 cout << "Ingrese el nombre del estudiante a buscar: ";
-                cin.ignore();
+                limpiarBuffer();
                 getline(cin, nombreBuscar);
 
                 bool encontrado = false;
@@ -73,7 +95,9 @@ int main() {
                 }
                 return 0;
             default:
-                cout << "Opción no válida. Inténtelo de nuevo." << endl;
+                cout << "Error: Opcion no valida. Intentelo de nuevo." << endl;
+                limpiarBuffer();
+                break;
         }
     }
 
