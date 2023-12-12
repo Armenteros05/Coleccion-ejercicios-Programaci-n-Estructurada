@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstdlib>
-#include <string>
+#include <cstring>
 #include <limits>
+
 using namespace std;
 
 struct Estudiante {
@@ -35,7 +36,7 @@ int main() {
         switch (opcion) {
             case 1:
                 if (cantidadEstudiantes < MAX_ESTUDIANTES) {
-                    listaEstudiantes[cantidadEstudiantes] = new Estudiante;
+                    listaEstudiantes[cantidadEstudiantes] = static_cast<Estudiante*>(malloc(sizeof(Estudiante)));
                     cout << "Ingrese el nombre del estudiante: ";
                     limpiarBuffer();
                     cin.getline(listaEstudiantes[cantidadEstudiantes]->nombre, 50, '\n');
@@ -92,11 +93,11 @@ int main() {
             case 4:
                 // Liberar memoria antes de salir
                 for (int i = 0; i < cantidadEstudiantes; ++i) {
-                    delete listaEstudiantes[i];
+                    free(listaEstudiantes[i]);
                 }
                 return 0;
             default:
-                cout << "Error: Opcion no valida. Intente de nuevo." << endl;
+                cout << "Error: Opcion no valida. Intentelo de nuevo." << endl;
                 limpiarBuffer();
                 break;
         }
