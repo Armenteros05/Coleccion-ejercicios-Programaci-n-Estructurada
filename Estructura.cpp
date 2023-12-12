@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <limits>  // Necesario para limpiar el buffer de entrada
+#include <limits>
 using namespace std;
 
 struct Estudiante {
@@ -19,19 +19,20 @@ int main() {
     const int MAX_ESTUDIANTES = 5;
     Estudiante* listaEstudiantes[MAX_ESTUDIANTES];
     int cantidadEstudiantes = 0;
-    int respuesta;
+    int opcion;
 
     while (true) {
         cout << "\nSeleccione una opcion:\n1. Agregar estudiante\n2. Mostrar estudiantes\n3. Buscar estudiante\n4. Salir\n";
-        cin >> respuesta;
+        cout << "Ingrese el numero correspondiente a su eleccion: ";
+        cin >> opcion;
 
         if (cin.fail()) {
-            cout << "Error: Opcion no valida. Por favor, ingrese un numero." << endl;
+            cout << "Error: Por favor, ingrese un numero." << endl;
             limpiarBuffer();
             continue;
         }
 
-        switch (respuesta) {
+        switch (opcion) {
             case 1:
                 if (cantidadEstudiantes < MAX_ESTUDIANTES) {
                     listaEstudiantes[cantidadEstudiantes] = new Estudiante;
@@ -95,7 +96,7 @@ int main() {
                 }
                 return 0;
             default:
-                cout << "Error: Opcion no valida. Intentelo de nuevo." << endl;
+                cout << "Error: Opcion no valida. Intente de nuevo." << endl;
                 limpiarBuffer();
                 break;
         }
